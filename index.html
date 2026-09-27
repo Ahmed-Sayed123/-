@@ -21,23 +21,93 @@
     padding-bottom:env(safe-area-inset-bottom,0px);
   }
   *{box-sizing:border-box}
-  html,body{height:100%;margin:0}
+  html,body{height:100%;margin:0;max-width:100%;overflow-x:hidden}
   body{
     background:#f6ede9;
     font-family:"Tahoma","Segoe UI",sans-serif;
     display:flex;
     justify-content:center;
-    padding:24px 14px 40px;
+    padding:20px 10px 40px;
     min-height:100%;
+    width:100%;
   }
   .card{
     width:100%;
     max-width:640px;
     background:var(--page-pink);
-    border-radius:26px;
-    padding:14px;
+    border-radius:22px;
+    padding:12px;
     overflow:hidden;
   }
+
+  /* settings bar */
+  .settings-toggle{
+    display:flex;
+    justify-content:flex-end;
+    margin-bottom:6px;
+  }
+  .gear-btn{
+    background:rgba(255,255,255,.5);
+    border:none;
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    font-size:16px;
+    cursor:pointer;
+    line-height:1;
+  }
+  .settings-panel{
+    display:none;
+    background:rgba(255,255,255,.55);
+    border-radius:12px;
+    padding:10px 12px;
+    margin-bottom:10px;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+  }
+  .settings-panel.open{display:flex}
+  .theme-picker{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:3px;
+    font-size:10.5px;
+    color:#3a1414;
+  }
+  .theme-picker input[type=color]{
+    width:34px;
+    height:34px;
+    border:none;
+    border-radius:8px;
+    padding:0;
+    cursor:pointer;
+    background:none;
+  }
+  .presets{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+  }
+  .preset-swatch{
+    width:24px;
+    height:24px;
+    border-radius:50%;
+    border:2px solid rgba(255,255,255,.8);
+    cursor:pointer;
+    padding:0;
+  }
+  .reset-btn{
+    margin-inline-start:auto;
+    background:#3a1414;
+    color:#fff;
+    border:none;
+    border-radius:8px;
+    padding:6px 10px;
+    font-size:12px;
+    cursor:pointer;
+  }
+
   .topbar{ margin-bottom:12px; }
   .title-box{
     background:var(--dark-red);
@@ -54,8 +124,19 @@
     text-align:center;
     line-height:1.6;
     outline:none;
+    width:100%;
   }
-  [contenteditable]{ cursor:text; }
+  [contenteditable]{
+    cursor:text;
+    min-height:1.5em;
+    word-break:break-word;
+    overflow-wrap:anywhere;
+  }
+  [contenteditable]:empty:before{
+    content:"اكتب هنا";
+    opacity:.4;
+    font-weight:400;
+  }
 
   [contenteditable]:focus{
     outline:2px dashed var(--dark-red);
@@ -76,6 +157,7 @@
 
   table{
     width:100%;
+    table-layout:fixed;
     border-collapse:collapse;
     border-radius:14px;
     overflow:hidden;
@@ -83,12 +165,14 @@
   }
   td{
     border:1px solid rgba(255,255,255,.6);
-    padding:12px 10px;
-    font-size:14px;
+    padding:10px 8px;
+    font-size:13.5px;
     font-weight:700;
     text-align:center;
     vertical-align:middle;
     color:#3a1414;
+    word-break:break-word;
+    overflow-wrap:anywhere;
   }
   td [contenteditable]{
     display:block;
@@ -100,40 +184,55 @@
     width:22%;
     background:var(--dark-red);
     color:var(--white);
-    font-size:16px;
+    font-size:15px;
     font-weight:800;
   }
   .head-caption{
     background:var(--dark-red);
     color:var(--white);
     text-decoration:underline;
-    font-size:15px;
+    font-size:14px;
     padding:8px 10px 2px;
   }
   .head-row td{
     background:var(--dark-red);
     color:var(--white);
-    font-size:14px;
-    padding:6px 10px 10px;
+    font-size:13px;
+    padding:6px 8px 10px;
   }
   tr.light td:not(.day-col){background:var(--light-pink)}
   tr.mid td:not(.day-col){background:var(--mid-red);color:#fff}
   tr.full td.merged{
-    font-size:16px;
-    letter-spacing:2px;
+    font-size:15px;
+    letter-spacing:1px;
   }
-  @media (max-width:420px){
-    td{font-size:12.5px;padding:9px 6px}
-    .day-col{font-size:14px}
+  @media (max-width:380px){
+    td{font-size:12px;padding:8px 5px}
+    .day-col{font-size:13px}
   }
 </style>
 </head>
 <body>
 <div class="card">
 
+  <div class="settings-toggle">
+    <button class="gear-btn" id="gearBtn" title="الألوان" aria-label="تغيير الألوان">🎨</button>
+  </div>
+  <div class="settings-panel" id="settingsPanel">
+    <label class="theme-picker">لون الثيم<input type="color" id="theme-color" value="#c0504d"></label>
+    <div class="presets">
+      <button class="preset-swatch" style="background:#c0504d" data-color="#c0504d" title="أحمر"></button>
+      <button class="preset-swatch" style="background:#3f6f9e" data-color="#3f6f9e" title="أزرق"></button>
+      <button class="preset-swatch" style="background:#4f8a5b" data-color="#4f8a5b" title="أخضر"></button>
+      <button class="preset-swatch" style="background:#8a5fa6" data-color="#8a5fa6" title="بنفسجي"></button>
+      <button class="preset-swatch" style="background:#c48a3a" data-color="#c48a3a" title="عنبي"></button>
+    </div>
+    <button class="reset-btn" id="resetColors">إعادة الافتراضي</button>
+  </div>
+
   <div class="topbar">
     <div class="title-box">
-      <div contenteditable="true">مجموعة ربع كل يوم<br>من سورة الجاثية للعنكبوت</div>
+      <div contenteditable="true" data-key="title">مجموعة ربع كل يوم<br>من سورة الجاثية للعنكبوت</div>
     </div>
   </div>
 
@@ -143,54 +242,172 @@
     </tr>
     <tr class="head-row">
       <td class="day-col">اليوم</td>
-      <td><div contenteditable="true">سرد كامل كل رفيقة</div></td>
-      <td><div contenteditable="true">ربع بالتبادل مع الرفيقة<br>{ربع وربع}</div></td>
+      <td><div contenteditable="true" data-key="head-col2">سرد كامل كل رفيقة</div></td>
+      <td><div contenteditable="true" data-key="head-col3">ربع بالتبادل مع الرفيقة<br>{ربع وربع}</div></td>
     </tr>
 
     <tr class="light full">
-      <td class="day-col"><div contenteditable="true">الاثنين</div></td>
-      <td colspan="2" class="merged"><div contenteditable="true">تجميع المحفوظ الأسبوعي</div></td>
+      <td class="day-col"><div contenteditable="true" data-key="day-mon">الاثنين</div></td>
+      <td colspan="2" class="merged"><div contenteditable="true" data-key="mon-content">تجميع المحفوظ الأسبوعي</div></td>
     </tr>
 
     <tr class="mid full">
-      <td class="day-col"><div contenteditable="true">الثلاثاء</div></td>
-      <td colspan="2" class="merged"><div contenteditable="true">اختبـــار تراكمـــي</div></td>
+      <td class="day-col"><div contenteditable="true" data-key="day-tue">الثلاثاء</div></td>
+      <td colspan="2" class="merged"><div contenteditable="true" data-key="tue-content">اختبـــار تراكمـــي</div></td>
     </tr>
 
     <tr class="light">
-      <td class="day-col"><div contenteditable="true">الأربعاء</div></td>
-      <td><div contenteditable="true">سورة فاطر من آية ١٠ لآية ٢٨</div></td>
-      <td><div contenteditable="true">جزء الشورى</div></td>
+      <td class="day-col"><div contenteditable="true" data-key="day-wed">الأربعاء</div></td>
+      <td><div contenteditable="true" data-key="wed-col2">سورة فاطر من آية ١٠ لآية ٢٨</div></td>
+      <td><div contenteditable="true" data-key="wed-col3">جزء الشورى</div></td>
     </tr>
 
     <tr class="mid">
-      <td class="day-col"><div contenteditable="true">الخميس</div></td>
-      <td><div contenteditable="true">سورة فاطر من آية ٢٩ لآية ٤٥</div></td>
-      <td><div contenteditable="true">سورة فصلت والزمر وسورة فاطر من ١ ل ٢٨</div></td>
+      <td class="day-col"><div contenteditable="true" data-key="day-thu">الخميس</div></td>
+      <td><div contenteditable="true" data-key="thu-col2">سورة فاطر من آية ٢٩ لآية ٤٥</div></td>
+      <td><div contenteditable="true" data-key="thu-col3">سورة فصلت والزمر وسورة فاطر من ١ ل ٢٨</div></td>
     </tr>
 
     <tr class="light full">
-      <td class="day-col"><div contenteditable="true">الجمعة</div></td>
-      <td colspan="2" class="merged"><div contenteditable="true">إجـــــازة</div></td>
+      <td class="day-col"><div contenteditable="true" data-key="day-fri">الجمعة</div></td>
+      <td colspan="2" class="merged"><div contenteditable="true" data-key="fri-content">إجـــــازة</div></td>
     </tr>
 
     <tr class="mid">
-      <td class="day-col"><div contenteditable="true">السبت</div></td>
-      <td><div contenteditable="true">سورة سبأ من آية ١ لآية ١٤</div></td>
-      <td><div contenteditable="true">سورة فاطر كاملة وغافر ويس</div></td>
+      <td class="day-col"><div contenteditable="true" data-key="day-sat">السبت</div></td>
+      <td><div contenteditable="true" data-key="sat-col2">سورة سبأ من آية ١ لآية ١٤</div></td>
+      <td><div contenteditable="true" data-key="sat-col3">سورة فاطر كاملة وغافر ويس</div></td>
     </tr>
 
     <tr class="light">
-      <td class="day-col"><div contenteditable="true">الأحد</div></td>
-      <td><div contenteditable="true">سورة سبأ من آية ١٥ لآية ٣١</div></td>
-      <td><div contenteditable="true">سورة سبأ من ١ ل ١٤ وسورة الصافات وص ويس</div></td>
+      <td class="day-col"><div contenteditable="true" data-key="day-sun">الأحد</div></td>
+      <td><div contenteditable="true" data-key="sun-col2">سورة سبأ من آية ١٥ لآية ٣١</div></td>
+      <td><div contenteditable="true" data-key="sun-col3">سورة سبأ من ١ ل ١٤ وسورة الصافات وص ويس</div></td>
     </tr>
   </table>
 </div>
+
 <script>
+  var STORAGE_KEY = 'weeklyPlanData';
+  var COLOR_KEY = 'weeklyPlanColors';
+
+  // ----- content persistence -----
+  function loadData(){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if(!raw) return;
+      var data = JSON.parse(raw);
+      document.querySelectorAll('[data-key]').forEach(function(el){
+        var k = el.getAttribute('data-key');
+        if(Object.prototype.hasOwnProperty.call(data, k)){
+          el.innerHTML = data[k];
+        }
+      });
+    }catch(e){}
+  }
+  function saveField(key, value){
+    try{
+      var raw = localStorage.getItem(STORAGE_KEY);
+      var data = raw ? JSON.parse(raw) : {};
+      data[key] = value;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }catch(e){}
+  }
+  document.querySelectorAll('[data-key]').forEach(function(el){
+    el.addEventListener('input', function(){
+      saveField(el.getAttribute('data-key'), el.innerHTML);
+    });
+  });
+
+  // ----- theme color (one color drives the whole palette) -----
+  var DEFAULT_THEME = '#c0504d';
+
+  function hexToHsl(hex){
+    hex = hex.replace('#','');
+    if(hex.length === 3) hex = hex.split('').map(function(c){return c+c;}).join('');
+    var r = parseInt(hex.substr(0,2),16)/255;
+    var g = parseInt(hex.substr(2,2),16)/255;
+    var b = parseInt(hex.substr(4,2),16)/255;
+    var max = Math.max(r,g,b), min = Math.min(r,g,b);
+    var h, s, l = (max+min)/2;
+    if(max === min){ h = 0; s = 0; }
+    else{
+      var d = max - min;
+      s = l > 0.5 ? d/(2-max-min) : d/(max+min);
+      if(max === r) h = (g-b)/d + (g < b ? 6 : 0);
+      else if(max === g) h = (b-r)/d + 2;
+      else h = (r-g)/d + 4;
+      h *= 60;
+    }
+    return { h: h, s: s*100, l: l*100 };
+  }
+  function hslToHex(h, s, l){
+    s /= 100; l /= 100;
+    var c = (1 - Math.abs(2*l - 1)) * s;
+    var x = c * (1 - Math.abs((h/60) % 2 - 1));
+    var m = l - c/2;
+    var r,g,b;
+    if(h < 60){ r=c; g=x; b=0; }
+    else if(h < 120){ r=x; g=c; b=0; }
+    else if(h < 180){ r=0; g=c; b=x; }
+    else if(h < 240){ r=0; g=x; b=c; }
+    else if(h < 300){ r=x; g=0; b=c; }
+    else{ r=c; g=0; b=x; }
+    var toHex = function(v){
+      var n = Math.round((v+m)*255);
+      return n.toString(16).padStart(2,'0');
+    };
+    return '#'+toHex(r)+toHex(g)+toHex(b);
+  }
+  function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
+
+  function applyTheme(baseHex){
+    var hsl = hexToHsl(baseHex);
+    var h = hsl.h, s = clamp(hsl.s, 35, 75);
+    var dark  = hslToHex(h, s, 42);
+    var mid   = hslToHex(h, clamp(s,25,65), 57);
+    var light = hslToHex(h, clamp(s,15,45), 88);
+    var page  = hslToHex(h, clamp(s,20,55), 76);
+    document.documentElement.style.setProperty('--dark-red', dark);
+    document.documentElement.style.setProperty('--mid-red', mid);
+    document.documentElement.style.setProperty('--light-pink', light);
+    document.documentElement.style.setProperty('--page-pink', page);
+    var input = document.getElementById('theme-color');
+    if(input) input.value = baseHex;
+  }
+  function loadColors(){
+    try{
+      var saved = localStorage.getItem(COLOR_KEY);
+      applyTheme(saved || DEFAULT_THEME);
+    }catch(e){ applyTheme(DEFAULT_THEME); }
+  }
+  function setTheme(hex){
+    applyTheme(hex);
+    localStorage.setItem(COLOR_KEY, hex);
+  }
+  document.getElementById('theme-color').addEventListener('input', function(){
+    setTheme(this.value);
+  });
+  document.querySelectorAll('.preset-swatch').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      setTheme(btn.getAttribute('data-color'));
+    });
+  });
+  document.getElementById('resetColors').addEventListener('click', function(){
+    localStorage.removeItem(COLOR_KEY);
+    applyTheme(DEFAULT_THEME);
+  });
+
+  document.getElementById('gearBtn').addEventListener('click', function(){
+    document.getElementById('settingsPanel').classList.toggle('open');
+  });
+
+  loadData();
+  loadColors();
+
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('service-worker.js').catch(() => {});
+    window.addEventListener('load', function(){
+      navigator.serviceWorker.register('service-worker.js').catch(function(){});
     });
   }
 </script>
