@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>خطة الأسبوع</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#c0504d">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
+<style>
+  :root{
+    --dark-red:#c0504d;
+    --mid-red:#cf6f68;
+    --light-pink:#f3d6d2;
+    --page-pink:#e79a95;
+    --white:#ffffff;
+    --gold:#f6c453;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{
+    background:#f6ede9;
+    font-family:"Tahoma","Segoe UI",sans-serif;
+    display:flex;
+    justify-content:center;
+    padding:24px 14px 40px;
+    min-height:100%;
+  }
+  .card{
+    width:100%;
+    max-width:640px;
+    background:var(--page-pink);
+    border-radius:26px;
+    padding:14px;
+    overflow:hidden;
+  }
+  .topbar{ margin-bottom:12px; }
+  .title-box{
+    background:var(--dark-red);
+    border-radius:14px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:12px 14px;
+  }
+  .title-box [contenteditable]{
+    color:var(--gold);
+    font-weight:800;
+    font-size:15px;
+    text-align:center;
+    line-height:1.6;
+    outline:none;
+  }
+  [contenteditable]{ cursor:text; }
+
+  [contenteditable]:focus{
+    outline:2px dashed var(--dark-red);
+    outline-offset:2px;
+    border-radius:6px;
+    background:rgba(255,255,255,.55);
+  }
+  .day-col [contenteditable]:focus,
+  .head-row td [contenteditable]:focus,
+  tr.mid td [contenteditable]:focus,
+  .title-box [contenteditable]:focus{
+    outline:2px dashed var(--gold);
+    outline-offset:2px;
+    border-radius:6px;
+    background:rgba(255,255,255,.22);
+    color:#fff;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    border-radius:14px;
+    overflow:hidden;
+    background:var(--light-pink);
+  }
+  td{
+    border:1px solid rgba(255,255,255,.6);
+    padding:12px 10px;
+    font-size:14px;
+    font-weight:700;
+    text-align:center;
+    vertical-align:middle;
+    color:#3a1414;
+  }
+  td [contenteditable]{
+    display:block;
+    outline:none;
+    padding:2px 4px;
+    border-radius:6px;
+  }
+  .day-col{
+    width:22%;
+    background:var(--dark-red);
+    color:var(--white);
+    font-size:16px;
+    font-weight:800;
+  }
+  .head-caption{
+    background:var(--dark-red);
+    color:var(--white);
+    text-decoration:underline;
+    font-size:15px;
+    padding:8px 10px 2px;
+  }
+  .head-row td{
+    background:var(--dark-red);
+    color:var(--white);
+    font-size:14px;
+    padding:6px 10px 10px;
+  }
+  tr.light td:not(.day-col){background:var(--light-pink)}
+  tr.mid td:not(.day-col){background:var(--mid-red);color:#fff}
+  tr.full td.merged{
+    font-size:16px;
+    letter-spacing:2px;
+  }
+  @media (max-width:420px){
+    td{font-size:12.5px;padding:9px 6px}
+    .day-col{font-size:14px}
+  }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="topbar">
+    <div class="title-box">
+      <div contenteditable="true">مجموعة ربع كل يوم<br>من سورة الجاثية للعنكبوت</div>
+    </div>
+  </div>
+
+  <table>
+    <tr>
+      <td colspan="3" class="head-caption">المراجعة</td>
+    </tr>
+    <tr class="head-row">
+      <td class="day-col">اليوم</td>
+      <td><div contenteditable="true">سرد كامل كل رفيقة</div></td>
+      <td><div contenteditable="true">ربع بالتبادل مع الرفيقة<br>{ربع وربع}</div></td>
+    </tr>
+
+    <tr class="light full">
+      <td class="day-col"><div contenteditable="true">الاثنين</div></td>
+      <td colspan="2" class="merged"><div contenteditable="true">تجميع المحفوظ الأسبوعي</div></td>
+    </tr>
+
+    <tr class="mid full">
+      <td class="day-col"><div contenteditable="true">الثلاثاء</div></td>
+      <td colspan="2" class="merged"><div contenteditable="true">اختبـــار تراكمـــي</div></td>
+    </tr>
+
+    <tr class="light">
+      <td class="day-col"><div contenteditable="true">الأربعاء</div></td>
+      <td><div contenteditable="true">سورة فاطر من آية ١٠ لآية ٢٨</div></td>
+      <td><div contenteditable="true">جزء الشورى</div></td>
+    </tr>
+
+    <tr class="mid">
+      <td class="day-col"><div contenteditable="true">الخميس</div></td>
+      <td><div contenteditable="true">سورة فاطر من آية ٢٩ لآية ٤٥</div></td>
+      <td><div contenteditable="true">سورة فصلت والزمر وسورة فاطر من ١ ل ٢٨</div></td>
+    </tr>
+
+    <tr class="light full">
+      <td class="day-col"><div contenteditable="true">الجمعة</div></td>
+      <td colspan="2" class="merged"><div contenteditable="true">إجـــــازة</div></td>
+    </tr>
+
+    <tr class="mid">
+      <td class="day-col"><div contenteditable="true">السبت</div></td>
+      <td><div contenteditable="true">سورة سبأ من آية ١ لآية ١٤</div></td>
+      <td><div contenteditable="true">سورة فاطر كاملة وغافر ويس</div></td>
+    </tr>
+
+    <tr class="light">
+      <td class="day-col"><div contenteditable="true">الأحد</div></td>
+      <td><div contenteditable="true">سورة سبأ من آية ١٥ لآية ٣١</div></td>
+      <td><div contenteditable="true">سورة سبأ من ١ ل ١٤ وسورة الصافات وص ويس</div></td>
+    </tr>
+  </table>
+</div>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('service-worker.js').catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>
